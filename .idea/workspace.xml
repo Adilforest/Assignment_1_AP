@@ -4,16 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0bf56199-4d44-488a-a581-530161417705" name="Changes" comment="Adding .gitignore file.">
+    <list default="true" id="0bf56199-4d44-488a-a581-530161417705" name="Changes" comment="Adding Post requests to server with html page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse-backend/database/postgres_connection.go" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/database/postgres_connection.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse-backend/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse-backend/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse-backend/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse-backend/models/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/models/product.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse-backend/routes/product_routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/routes/product_routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse-frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +109,8 @@
     <MESSAGE value="Adding ide files" />
     <MESSAGE value="Adding ide files &amp; Architecture." />
     <MESSAGE value="Adding .gitignore file." />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding .gitignore file." />
+    <MESSAGE value="Adding Post requests to server with html page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding Post requests to server with html page" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
