@@ -4,8 +4,16 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0bf56199-4d44-488a-a581-530161417705" name="Changes" comment="Adding ide files &amp; Architecture.">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="0bf56199-4d44-488a-a581-530161417705" name="Changes" comment="Adding .gitignore file.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warehouse-backend/database/postgres_connection.go" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/database/postgres_connection.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warehouse-backend/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warehouse-backend/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warehouse-backend/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warehouse-backend/models/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/models/product.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warehouse-backend/routes/product_routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/routes/product_routes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warehouse-frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-frontend/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +43,10 @@
     &quot;accountId&quot;: &quot;3cb594dd-4471-457c-b25a-d2e6a13ae4d0&quot;
   }
 }</component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -47,6 +59,7 @@
   "keyToString": {
     "DefaultGoTemplateProperty": "Go File",
     "Go Build.go build Assignment_1_AP.executor": "Run",
+    "JavaScript Debug.index.html.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
@@ -68,7 +81,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JavaScript Debug.index.html">
     <configuration name="go build Assignment_1_AP" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="Assignment_1_AP" />
       <working_directory value="$PROJECT_DIR$" />
@@ -78,6 +91,14 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/Assignment_1_AP/warehouse-frontend/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.index.html" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -95,7 +116,8 @@
     <MESSAGE value="Adding gitignore" />
     <MESSAGE value="Adding ide files" />
     <MESSAGE value="Adding ide files &amp; Architecture." />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding ide files &amp; Architecture." />
+    <MESSAGE value="Adding .gitignore file." />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding .gitignore file." />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

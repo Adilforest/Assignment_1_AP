@@ -1,11 +1,11 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 	"log"
-	"net/http"
 	"warehouse-backend/database"
+	"warehouse-backend/models"
 )
 
 type Message struct {
@@ -15,31 +15,46 @@ type Message struct {
 func main() {
 	// Подключение к базе данных
 	database.ConnectPostgres()
+	database.Migrate()
+
+	// Автоматическая миграция
+	err := database.DB.AutoMigrate(&models.Product{})
+	if err != nil {
+		log.Fatalf("Error migrating the database: %v", err)
+	}
+
+	log.Println("Database migrated successfully!")
+
+	// Настройка маршрутов
+	r := gin.Default()
+
+	// Добавляем поддержку CORS
+	r.Use(cors.Default()) // Разрешает все источники (для разработки)
+
+	// Главная страница
+	r.GET("/", func(c *gin.Context) {
+		c.String(200, "Welcome to the Warehouse Backend!")
+	})
 
 	// Обработчик для GET запроса
-	http.HandleFunc("/get", func(w http.ResponseWriter, r *http.Request) {
+	r.GET("/get", func(c *gin.Context) {
 		response := map[string]string{
 			"status":  "success",
 			"message": "GET запрос успешен!",
 		}
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(response)
+		c.JSON(200, response)
 	})
 
 	// Обработчик для POST запроса
-	http.HandleFunc("/post", func(w http.ResponseWriter, r *http.Request) {
-		// Проверяем метод запроса
-		if r.Method != http.MethodPost {
-			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
-			return
-		}
-
-		// Декодируем JSON из тела запроса
+	r.POST("/post", func(c *gin.Context) {
 		var msg Message
-		err := json.NewDecoder(r.Body).Decode(&msg)
-		if err != nil || msg.Message == "" {
+		// Декодируем JSON из тела запроса
+		if err := c.ShouldBindJSON(&msg); err != nil || msg.Message == "" {
 			// Возвращаем ошибку, если данные не валидны
-			http.Error(w, `{"status": "fail", "message": "Некорректное JSON-сообщение"}`, http.StatusBadRequest)
+			c.JSON(400, gin.H{
+				"status":  "fail",
+				"message": "Некорректное JSON-сообщение",
+			})
 			return
 		}
 
@@ -50,18 +65,12 @@ func main() {
 		}
 
 		// Отправляем ответ
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(response)
-	})
-
-	// Пример простого домашнего маршрута для теста
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Welcome to the Warehouse Backend!")
+		c.JSON(200, response)
 	})
 
 	// Запуск сервера
-	fmt.Println("Server is running on port 8080...")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	log.Println("Server is running on port 8080...")
+	if err := r.Run(":8080"); err != nil {
 		log.Fatal(err)
 	}
 }
