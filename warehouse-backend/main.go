@@ -19,12 +19,17 @@ type Message struct {
 }
 
 func main() {
+	setupDatabase()
 	router := setupRoutes()
 
 	log.Println("Server is running on port " + serverPort)
 	if err := router.Run(serverPort); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func setupDatabase() {
+	database.ConnectPostgres()
 }
 
 func setupRoutes() *gin.Engine {
