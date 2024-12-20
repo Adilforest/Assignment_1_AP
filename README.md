@@ -1,3 +1,14 @@
+# Assignment_1_AP
+## Adil Ormanov & Madi Kassymov
+**Group**: SE-2311
+# Warehouse Management System
+## Project Description
+The Warehouse Management System is a web application designed to manage inventory for warehouses. It enables administrators to add, update, delete, and view products, while cashiers can manage product quantities. Unregistered users can only view available products.
+## Homepage Screenshot
+![Homepage Screenshot](path/to/screenshot.png)
+
+---
+
 ## Setup Instructions
 
 ### Clone the Repository
@@ -101,9 +112,3 @@
 ```
 
 ---
-
-## Summary of Refactoring:
-1. **Consolidated redundant instructions** (e.g., grouping install commands together).
-2. **Introduced subsection headers** for better navigation.
-3. **Improved placeholders** for file paths, commands, and sensitive information (e.g., `<yourpassword>`).
-4. **Simplified file structure explanations**, focusing only on essential functionality comments.
