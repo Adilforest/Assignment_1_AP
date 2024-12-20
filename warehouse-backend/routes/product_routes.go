@@ -7,30 +7,37 @@ import (
 	"warehouse-backend/models"
 )
 
-// CreateProduct — обработчик POST-запроса для создания нового продукта
-func CreateProduct(c *gin.Context) {
+const productCreatedMessage = "Product created successfully" // Success message constant
+
+// HandleCreateProduct handles the POST request for creating a new product
+func HandleCreateProduct(c *gin.Context) {
 	var product models.Product
 
-	// Привязка JSON-данных в структуру product
+	// Bind JSON data into the Product struct and check for errors
 	if err := c.ShouldBindJSON(&product); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		handleError(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	// Сохраняем продукт в базе данных
+	// Save the product in the database and check for errors
 	if result := database.DB.Create(&product); result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		handleError(c, http.StatusInternalServerError, result.Error.Error())
 		return
 	}
 
-	// Возвращаем успешный ответ
+	// Return successful response
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Product created successfully",
+		"message": productCreatedMessage,
 		"product": product,
 	})
 }
 
-// SetupProductRoutes — функция для настройки маршрутов, связанных с продуктами
-func SetupProductRoutes(r *gin.Engine) {
-	r.POST("/products", CreateProduct)
+// SetupProductRoutes configures routes related to products
+func SetupProductRoutes(router *gin.Engine) {
+	router.POST("/products", HandleCreateProduct)
+}
+
+// handleError is a helper function for sending an error response
+func handleError(c *gin.Context, statusCode int, errorMessage string) {
+	c.JSON(statusCode, gin.H{"error": errorMessage})
 }

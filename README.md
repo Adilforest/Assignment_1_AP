@@ -6,6 +6,9 @@
 The Warehouse Management System is a web application designed to manage inventory for warehouses. It enables administrators to add, update, delete, and view products, while cashiers can manage product quantities. Unregistered users can only view available products.
 ## Homepage Screenshot
 ![Homepage Screenshot](path/to/screenshot.png)
+## Project Diagram
+For an overview of the system design, refer to the online diagram:
+[View Project Diagram](https://drive.google.com/file/d/1kKt8_p4BTikiviT1lTGdPM7cTFXPPR47/view?usp=sharing)
 
 ---
 
@@ -109,6 +112,7 @@ The Warehouse Management System is a web application designed to manage inventor
 │   ├── api.js                  // Centralized API request handling.
 ├── /css
 │   ├── styles.css              // Application styles.
+├── /images                     // Contains images used in the
 ```
 
 ---

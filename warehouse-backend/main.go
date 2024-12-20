@@ -5,72 +5,73 @@ import (
 	"github.com/gin-gonic/gin"
 	"log"
 	"warehouse-backend/database"
-	"warehouse-backend/models"
 )
 
+const serverPort = ":8080"
+
+// Message represents a structure to decode received JSON payloads
 type Message struct {
 	Message string `json:"message"`
 }
 
 func main() {
-	// Подключение к базе данных
-	database.ConnectPostgres()
-	database.Migrate()
+	setupDatabase()
+	router := setupRoutes()
 
-	// Автоматическая миграция
-	err := database.DB.AutoMigrate(&models.Product{})
-	if err != nil {
-		log.Fatalf("Error migrating the database: %v", err)
+	log.Println("Server is running on port" + serverPort + "...")
+	if err := router.Run(serverPort); err != nil {
+		log.Fatal(err)
+	}
+}
+
+// setupDatabase connects to the database and applies migrations
+func setupDatabase() {
+	database.ConnectPostgres()
+}
+
+// setupRoutes configures and returns a new gin router with routes and middleware
+func setupRoutes() *gin.Engine {
+	router := gin.Default()
+
+	// Enable CORS for development
+	router.Use(cors.Default())
+
+	// Define Routes
+	router.GET("/", handleHome)
+	router.GET("/get", handleGetRequest)
+	router.POST("/post", handlePostRequest)
+
+	return router
+}
+
+// handleHome handles the home route ("/")
+func handleHome(c *gin.Context) {
+	c.String(200, "Welcome to the Warehouse Backend!")
+}
+
+// handleGetRequest processes GET requests to "/get"
+func handleGetRequest(c *gin.Context) {
+	jsonResponse := createResponse("success", "GET запрос успешен!")
+	c.JSON(200, jsonResponse)
+}
+
+// handlePostRequest processes POST requests to "/post"
+func handlePostRequest(c *gin.Context) {
+	var message Message
+	if err := c.ShouldBindJSON(&message); err != nil || message.Message == "" {
+		// Return failure response if body is invalid or empty
+		c.JSON(400, createResponse("fail", "Некорректное JSON-сообщение"))
+		return
 	}
 
-	log.Println("Database migrated successfully!")
+	// Successfully received data
+	c.JSON(200, createResponse("success", "Данные успешно приняты"))
+}
 
-	// Настройка маршрутов
-	r := gin.Default()
-
-	// Добавляем поддержку CORS
-	r.Use(cors.Default()) // Разрешает все источники (для разработки)
-
-	// Главная страница
-	r.GET("/", func(c *gin.Context) {
-		c.String(200, "Welcome to the Warehouse Backend!")
-	})
-
-	// Обработчик для GET запроса
-	r.GET("/get", func(c *gin.Context) {
-		response := map[string]string{
-			"status":  "success",
-			"message": "GET запрос успешен!",
-		}
-		c.JSON(200, response)
-	})
-
-	// Обработчик для POST запроса
-	r.POST("/post", func(c *gin.Context) {
-		var msg Message
-		// Декодируем JSON из тела запроса
-		if err := c.ShouldBindJSON(&msg); err != nil || msg.Message == "" {
-			// Возвращаем ошибку, если данные не валидны
-			c.JSON(400, gin.H{
-				"status":  "fail",
-				"message": "Некорректное JSON-сообщение",
-			})
-			return
-		}
-
-		// Формируем ответ
-		response := map[string]string{
-			"status":  "success",
-			"message": "Данные успешно приняты",
-		}
-
-		// Отправляем ответ
-		c.JSON(200, response)
-	})
-
-	// Запуск сервера
-	log.Println("Server is running on port 8080...")
-	if err := r.Run(":8080"); err != nil {
-		log.Fatal(err)
+// createResponse returns a standardized JSON response
+func createResponse(status, message string) map[string]string {
+	return map[string]string{
+		"status":  status,
+		"message": message,
 	}
 }

@@ -4,49 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Send JSON to API</title>
-    <script>
-        // Функция для отправки POST запроса
-        function sendData() {
-            const message = document.getElementById("message").value; // Получаем значение из поля
-
-            // Формируем объект JSON
-            const data = {
-                message: message
-            };
-
-            // Отправляем POST запрос на сервер
-            fetch("http://localhost:8080/post", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => response.json())  // Получаем ответ от сервера в формате JSON
-                .then(data => {
-                    // Показываем ответ сервера на странице
-                    document.getElementById("response").innerText = JSON.stringify(data, null, 2);
-                })
-                .catch(error => {
-                    document.getElementById("response").innerText = "Error: " + error;
-                });
-        }
-    </script>
+    <!-- Include external JavaScript file -->
+    <script src="./js/api.js" defer></script>
 </head>
 <body>
 <h1>Send JSON to API</h1>
-
-<!-- Поле для ввода сообщения -->
+<!-- Input field for message -->
 <label for="message">Message:</label>
 <input type="text" id="message" name="message" required>
-
 <br><br>
-
-<!-- Кнопка для отправки данных -->
+<!-- Button to send data -->
 <button onclick="sendData()">Send</button>
-
 <h2>Server Response:</h2>
-<!-- Место для отображения ответа от сервера -->
+<!-- Area to display server response -->
 <pre id="response"></pre>
 </body>
 </html>

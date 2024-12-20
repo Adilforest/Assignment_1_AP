@@ -2,39 +2,37 @@ package database
 
 import (
 	"fmt"
-	"log"
-
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"log"
 	"warehouse-backend/config"
 	"warehouse-backend/models"
 )
 
-var DB *gorm.DB
+var Database *gorm.DB
 
-// ConnectPostgres подключается к базе данных PostgreSQL
+const dbConnectionSuccessMsg = "Successfully connected to PostgreSQL!"
+
+// ConnectPostgres establishes a connection to the PostgreSQL database and performs automatic migrations.
 func ConnectPostgres() {
-	cfg := config.GetConfig()
+	db := initializeDatabaseConnection()
+	Database = db
+	fmt.Println(dbConnectionSuccessMsg)
 
+	// Perform migration for tables
+	if err := Database.AutoMigrate(&models.Product{}); err != nil {
+		log.Fatalf("Error migrating the database: %v", err)
+	}
+	fmt.Println("Database migrated successfully!")
+}
+
+// initializeDatabaseConnection handles the database connection setup logic.
+func initializeDatabaseConnection() *gorm.DB {
+	cfg := config.GetConfig()
 	dsn := cfg.GetPostgresDSN()
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatalf("Failed to connect to the database: %v", err)
+		log.Fatalf("Failed to connect to the database. DSN: %v, Error: %v", dsn, err)
 	}
-
-	DB = db
-	fmt.Println("Successfully connected to PostgreSQL!")
-
-	// Миграция для создания таблицы продуктов
-	Migrate()
-}
-
-// Migrate выполняет миграцию базы данных, создавая таблицы, если они не существуют
-func Migrate() {
-	err := DB.AutoMigrate(&models.Product{})
-	if err != nil {
-		log.Fatalf("Error migrating the database: %v", err)
-	} else {
-		fmt.Println("Database migrated successfully!")
-	}
+	return db
 }
