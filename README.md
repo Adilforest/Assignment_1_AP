@@ -1,85 +1,109 @@
-# Assignment_1_AP
-# Adil Ormanov & Madi Kassymov
-**Group**: SE-2311
+## Setup Instructions
 
-# Warehouse Backend
-
-Warehouse Backend is a lightweight backend service built with Go and the Gin framework. It is designed to handle basic API operations and database interactions for warehouse management.
-
-## Features
-
-- **RESTful API**: Supports GET and POST requests.
-- **CORS Support**: Cross-Origin Resource Sharing is enabled for easier development.
-- **Database Integration**:
-    - PostgreSQL: Primary database with automatic migration capabilities.
-    - MongoDB: Placeholder for additional database support.
-- **Simple Setup**: Easily configurable and extensible.
-
-## Requirements
-
-- Go 1.20+
-- PostgreSQL 16+
-- MongoDB 6+
-
-## Setup
-
-1. **Clone the repository:**
+### Clone the Repository
+1. Clone the repository and navigate to the backend folder:
    ```bash
    git clone https://github.com/Adilforest/Assignment_1_AP.git
    cd warehouse-backend
    ```
 
-2. **Configure the environment:**
-   Set up your configuration file (e.g., `config.yml`) with the necessary database credentials.
+### Backend Setup
+1. **Install Go**:
+   - Download and install Go from the [official website](https://golang.org/dl/).
+   - Verify the installation:
+     ```bash
+     go version
+     ```
+2. **Install PostgreSQL**:
+   - Download PostgreSQL from [PostgreSQL.org](https://www.postgresql.org/download/).
+   - Verify the installation:
+     ```bash
+     psql --version
+     ```
+3. **Configure the Database**:
+   - Create a PostgreSQL database and user with these SQL commands:
+     ```sql
+     CREATE DATABASE warehouse;
+     CREATE USER admin WITH PASSWORD '<yourpassword>';
+     ALTER ROLE admin SET client_encoding TO 'utf8';
+     ALTER ROLE admin SET default_transaction_isolation TO 'read committed';
+     ALTER ROLE admin SET timezone TO 'UTC';
+     GRANT ALL PRIVILEGES ON DATABASE warehouse TO admin;
+     ```
 
-3. **Install dependencies:**
+4. **Install Project Dependencies**:
+   - Navigate to the backend folder:
+     ```bash
+     cd warehouse-backend
+     ```
+   - Install dependencies:
+     ```bash
+     go mod tidy
+     ```
+
+5. **Run the Server**:
+   - Start the development server:
+     ```bash
+     go run main.go
+     ```
+   - The backend should now be running at: [http://localhost:8080](http://localhost:8080)
+
+### Frontend Setup
+1. **Navigate to the Frontend Folder**:
    ```bash
-   go mod tidy
+   cd warehouse-frontend
    ```
+2. **Open the Frontend**:
+   - Open `index.html` in your browser:
+     ```bash
+     start index.html
+     ```
 
-4. **Run the application:**
-   ```bash
-   go run main.go
-   ```
+---
 
-## File Structure
+## File Structure Overview
 
-- `main.go`: Entry point of the application.
-- `database/postgres_connection.go`: Handles PostgreSQL connection and migrations.
-- `database/mongo_connection.go`: Placeholder for MongoDB integration.
-
-## API Endpoints
-
-### Base URL
-
-`http://localhost:8080`
-
-### Endpoints
-
-- `GET /` - Welcome message.
-- `GET /get` - Returns a success message.
-- `POST /post` - Accepts a JSON payload and returns a success response.
-
-Example payload for `POST /post`:
-```json
-{
-  "message": "Your custom message"
-}
+### Backend Directory
+```plaintext
+/warehouse-backend
+├── main.go                     // Entry point for server initialization.
+├── /routes                     // Route definitions.
+│   ├── auth_routes.go          // Authentication routes.
+│   ├── product_routes.go       // Product management routes.
+├── /controllers                // Business logic layer.
+│   ├── auth_controller.go      // Authentication logic.
+│   ├── product_controller.go   // Product logic.
+├── /models                     // Database schema definitions.
+│   ├── user.go                 // User schema.
+│   ├── product.go              // Product schema.
+├── /middleware                 // Middleware for request handling.
+│   ├── auth_middleware.go      // JWT authentication middleware.
+│   ├── role_middleware.go      // Role-based access control.
+├── /database                   // Database connection logic.
+│   ├── mongo_connection.go     // MongoDB connection (placeholder).
+│   ├── postgres_connection.go  // PostgreSQL connection.
+└── /config                     // Application configuration.
+    ├── config.go
 ```
 
-## Database Setup
+### Frontend Directory
+```plaintext
+/warehouse-frontend
+├── index.html                  // Guest access to view products.
+├── admin.html                  // Admin dashboard.
+├── cashier.html                // Cashier interface.
+├── /js
+│   ├── auth.js                 // Login/logout logic.
+│   ├── products.js             // API calls for product operations.
+│   ├── api.js                  // Centralized API request handling.
+├── /css
+│   ├── styles.css              // Application styles.
+```
 
-### PostgreSQL
+---
 
-1. Ensure PostgreSQL is running.
-2. Configure the `PostgresDSN` in your configuration file.
-3. The application automatically creates the required tables upon startup.
-
-### MongoDB 
-
-MongoDB integration is currently a placeholder and requires additional implementation.
-
-
-
-
-
+## Summary of Refactoring:
+1. **Consolidated redundant instructions** (e.g., grouping install commands together).
+2. **Introduced subsection headers** for better navigation.
+3. **Improved placeholders** for file paths, commands, and sensitive information (e.g., `<yourpassword>`).
+4. **Simplified file structure explanations**, focusing only on essential functionality comments.
