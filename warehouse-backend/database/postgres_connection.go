@@ -13,20 +13,17 @@ var Database *gorm.DB
 
 const dbConnectionSuccessMsg = "Successfully connected to PostgreSQL!"
 
-// ConnectPostgres establishes a connection to the PostgreSQL database and performs automatic migrations.
 func ConnectPostgres() {
 	db := initializeDatabaseConnection()
 	Database = db
 	fmt.Println(dbConnectionSuccessMsg)
 
-	// Perform migration for tables
 	if err := Database.AutoMigrate(&models.Product{}); err != nil {
 		log.Fatalf("Error migrating the database: %v", err)
 	}
 	fmt.Println("Database migrated successfully!")
 }
 
-// initializeDatabaseConnection handles the database connection setup logic.
 func initializeDatabaseConnection() *gorm.DB {
 	cfg := config.GetConfig()
 	dsn := cfg.GetPostgresDSN()
@@ -35,4 +32,65 @@ func initializeDatabaseConnection() *gorm.DB {
 		log.Fatalf("Failed to connect to the database. DSN: %v, Error: %v", dsn, err)
 	}
 	return db
+}
+
+func CreateProduct(product *models.Product) error {
+	result := Database.Create(product)
+	if result.Error != nil {
+		return fmt.Errorf("error creating product: %v", result.Error)
+	}
+	return nil
+}
+
+func GetProductByID(id uint) (*models.Product, error) {
+	var product models.Product
+	result := Database.First(&product, id)
+	if result.Error != nil {
+		if result.RowsAffected == 0 {
+			return nil, fmt.Errorf("product with ID %d not found", id)
+		}
+		return nil, fmt.Errorf("error finding product: %v", result.Error)
+	}
+	return &product, nil
+}
+
+func UpdateProduct(id uint, productData *models.Product) error {
+	var product models.Product
+	result := Database.First(&product, id)
+	if result.Error != nil {
+		if result.RowsAffected == 0 {
+			return fmt.Errorf("product with ID %d not found", id)
+		}
+		return fmt.Errorf("error finding product: %v", result.Error)
+	}
+
+	product.Name = productData.Name
+	product.Price = productData.Price
+	product.Quantity = productData.Quantity
+
+	saveResult := Database.Save(&product)
+	if saveResult.Error != nil {
+		return fmt.Errorf("error updating product: %v", saveResult.Error)
+	}
+	return nil
+}
+
+func DeleteProduct(id uint) error {
+	result := Database.Delete(&models.Product{}, id)
+	if result.Error != nil {
+		return fmt.Errorf("error deleting product: %v", result.Error)
+	}
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("product with ID %d not found", id)
+	}
+	return nil
+}
+
+func GetAllProducts() ([]models.Product, error) {
+	var products []models.Product
+	result := Database.Find(&products)
+	if result.Error != nil {
+		return nil, fmt.Errorf("error fetching products: %v", result.Error)
+	}
+	return products, nil
 }

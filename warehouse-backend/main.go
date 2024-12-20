@@ -4,74 +4,160 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"log"
+	"net/http"
+	"strconv"
 	"warehouse-backend/database"
+	"warehouse-backend/models"
 )
 
-const serverPort = ":8080"
+const (
+	serverPort = ":8080"
+)
 
-// Message represents a structure to decode received JSON payloads
 type Message struct {
 	Message string `json:"message"`
 }
 
 func main() {
-	setupDatabase()
 	router := setupRoutes()
 
-	log.Println("Server is running on port" + serverPort + "...")
+	log.Println("Server is running on port " + serverPort)
 	if err := router.Run(serverPort); err != nil {
 		log.Fatal(err)
 	}
 }
 
-// setupDatabase connects to the database and applies migrations
-func setupDatabase() {
-	database.ConnectPostgres()
-}
-
-// setupRoutes configures and returns a new gin router with routes and middleware
 func setupRoutes() *gin.Engine {
 	router := gin.Default()
 
-	// Enable CORS for development
-	router.Use(cors.Default())
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:63342"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Content-Type", "Authorization"},
+		AllowCredentials: true,
+	}))
 
-	// Define Routes
 	router.GET("/", handleHome)
 	router.GET("/get", handleGetRequest)
 	router.POST("/post", handlePostRequest)
 
+	productRoutes := router.Group("/products")
+	{
+		productRoutes.POST("/create", createProductHandler)
+		productRoutes.GET("/:id", getProductHandler)
+		productRoutes.GET("/", getAllProductsHandler)
+		productRoutes.PUT("/:id", updateProductHandler)
+		productRoutes.DELETE("/:id", deleteProductHandler)
+	}
+
 	return router
 }
 
-// handleHome handles the home route ("/")
+//  General Handlers
+
 func handleHome(c *gin.Context) {
-	c.String(200, "Welcome to the Warehouse Backend!")
+	c.String(http.StatusOK, "Welcome to the Warehouse Backend!")
 }
 
-// handleGetRequest processes GET requests to "/get"
 func handleGetRequest(c *gin.Context) {
-	jsonResponse := createResponse("success", "GET запрос успешен!")
-	c.JSON(200, jsonResponse)
+	response := createResponse("success", "GET request processed successfully")
+	c.JSON(http.StatusOK, response)
 }
 
-// handlePostRequest processes POST requests to "/post"
 func handlePostRequest(c *gin.Context) {
 	var message Message
 	if err := c.ShouldBindJSON(&message); err != nil || message.Message == "" {
-		// Return failure response if body is invalid or empty
-		c.JSON(400, createResponse("fail", "Некорректное JSON-сообщение"))
+		c.JSON(http.StatusBadRequest, createResponse("fail", "Invalid or empty JSON message"))
 		return
 	}
 
-	// Successfully received data
-	c.JSON(200, createResponse("success", "Данные успешно приняты"))
+	c.JSON(http.StatusOK, createResponse("success", "Data received successfully"))
 }
 
-// createResponse returns a standardized JSON response
 func createResponse(status, message string) map[string]string {
 	return map[string]string{
 		"status":  status,
 		"message": message,
 	}
+}
+
+// CRUD Handlers for Product
+
+func createProductHandler(c *gin.Context) {
+	var product models.Product
+	if err := c.ShouldBindJSON(&product); err != nil {
+		c.JSON(http.StatusBadRequest, createResponse("fail", "Invalid JSON payload"))
+		return
+	}
+
+	if err := database.CreateProduct(&product); err != nil {
+		c.JSON(http.StatusInternalServerError, createResponse("fail", "Failed to create product"))
+		return
+	}
+
+	c.JSON(http.StatusCreated, product)
+}
+
+func getProductHandler(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, createResponse("fail", "Invalid product ID"))
+		return
+	}
+
+	product, err := database.GetProductByID(uint(id))
+	if err != nil {
+		c.JSON(http.StatusNotFound, createResponse("fail", "Product not found"))
+		return
+	}
+
+	c.JSON(http.StatusOK, product)
+}
+
+func getAllProductsHandler(c *gin.Context) {
+	products, err := database.GetAllProducts()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, createResponse("fail", "Failed to fetch products"))
+		return
+	}
+
+	c.JSON(http.StatusOK, products)
+}
+
+func updateProductHandler(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, createResponse("fail", "Invalid product ID"))
+		return
+	}
+
+	var updatedProduct models.Product
+	if err := c.ShouldBindJSON(&updatedProduct); err != nil {
+		c.JSON(http.StatusBadRequest, createResponse("fail", "Invalid JSON payload"))
+		return
+	}
+
+	err = database.UpdateProduct(uint(id), &updatedProduct)
+	if err != nil {
+		c.JSON(http.StatusNotFound, createResponse("fail", err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusOK, createResponse("success", "Product updated successfully"))
+}
+
+func deleteProductHandler(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, createResponse("fail", "Invalid product ID"))
+		return
+	}
+
+	err = database.DeleteProduct(uint(id))
+	if err != nil {
+		c.JSON(http.StatusNotFound, createResponse("fail", err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusOK, createResponse("success", "Product deleted successfully"))
 }
