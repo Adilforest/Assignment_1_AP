@@ -11,7 +11,7 @@ The Warehouse Management System is a web application designed to manage inventor
 - **Unregistered Users**: Can only view available products.
 
 ## Homepage Screenshot
-![Homepage Screenshot](./warehouse-frontend/images/Screenshot 2024-12-20 at 07.19.04.png)
+![Homepage Screenshot](warehouse-frontend/images/Screenshot%202024-12-20%20at%2007.19.04.png)
 
 ## Project Diagram
 For an overview of the system design, refer to the online diagram:
@@ -38,7 +38,8 @@ Here is the list of Go libraries currently used in the project (from `go.mod`):
 - `gorm.io/driver/postgres` - PostgreSQL driver package for GORM.
 
 #### Frontend Dependencies
-- **No package manager**: No NPM or third-party libraries are yet used for the frontend—uses plain HTML, CSS, and JavaScript.
+- **No package manager**: No NPM or third-party libraries are yet used for the frontend—uses plain HTML, CSS, and
+  JavaScript.
 
 ---
 
@@ -53,18 +54,21 @@ cd warehouse-backend
 
 ### Backend Setup
 1. **Install Go**:
+
 - Download and install Go from the [official website](https://golang.org/dl/).
 - Verify the installation:
 ```bash
 go version
 ```
 2. **Install PostgreSQL**:
+
 - Download PostgreSQL from [PostgreSQL.org](https://www.postgresql.org/download/).
 - Verify the installation:
 ```bash
 psql --version
 ```
 3. **Configure the Database**:
+
 - Create a PostgreSQL database and user with these SQL commands:
     ```sql
     CREATE DATABASE warehouse;
@@ -76,6 +80,7 @@ psql --version
     ```
 
     4. **Install Project Dependencies**:
+
     - Navigate to the backend folder:
     ```bash
     cd warehouse-backend
@@ -86,18 +91,20 @@ psql --version
     ```
 
     5. **Run the Server**:
+
     - Start the development server:
     ```bash
     go run main.go
     ```
     - The backend should now be running at: [http://localhost:8080](http://localhost:8080)
 
-    ### Frontend Setup
+  ### Frontend Setup
     1. **Navigate to the Frontend Folder**:
     ```bash
     cd warehouse-frontend
     ```
     2. **Open the Frontend**:
+
     - Open `index.html` in your browser:
     ```bash
     start index.html
@@ -105,9 +112,9 @@ psql --version
 
     ---
 
-    ## File Structure Overview
+  ## File Structure Overview
 
-    ### Backend Directory
+  ### Backend Directory
     ```plaintext
     /warehouse-backend
     ├── main.go                     // Entry point for server initialization.
@@ -130,7 +137,7 @@ psql --version
     ├── config.go
     ```
 
-    ### Frontend Directory
+  ### Frontend Directory
     ```plaintext
     /warehouse-frontend
     ├── index.html                  // Guest access to view products.
