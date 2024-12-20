@@ -1,14 +1,44 @@
-# Assignment_1_AP
-## Adil Ormanov & Madi Kassymov
-**Group**: SE-2311
 # Warehouse Management System
+
+## Authors
+**Adil Ormanov & Madi Kassymov**
+**Group**: SE-2311
+
 ## Project Description
-The Warehouse Management System is a web application designed to manage inventory for warehouses. It enables administrators to add, update, delete, and view products, while cashiers can manage product quantities. Unregistered users can only view available products.
+The Warehouse Management System is a web application designed to manage inventory for warehouses.
+- **Administrators**: Can add, update, delete, and view products.
+- **Cashiers**: Manage product quantities.
+- **Unregistered Users**: Can only view available products.
+
 ## Homepage Screenshot
 ![Homepage Screenshot](path/to/screenshot.png)
+
 ## Project Diagram
 For an overview of the system design, refer to the online diagram:
 [View Project Diagram](https://drive.google.com/file/d/1kKt8_p4BTikiviT1lTGdPM7cTFXPPR47/view?usp=sharing)
+
+---
+
+## Used Tools
+### Development Tools
+- **Programming Language**: [Go (Golang)](https://golang.org/)
+- **Frontend Technologies**: HTML, CSS, JavaScript
+- **Database**: [PostgreSQL](https://www.postgresql.org/)
+- **Version Control**: [Git](https://git-scm.com/)
+- **IDE**: JetBrains GoLand
+- **Other Tools**: Google Drive (for diagrams and collaboration)
+
+### Libraries and Frameworks
+#### Backend Dependencies (Go Modules)
+Here is the list of Go libraries currently used in the project (from `go.mod`):
+- `github.com/dgrijalva/jwt-go` - JWT implementation for authentication.
+- `github.com/go-chi/chi` - Lightweight and idiomatic Go web framework.
+- `github.com/lib/pq` - PostgreSQL driver for Go.
+- `gorm.io/gorm` - ORM library for Go to work with relational databases.
+- `gorm.io/driver/postgres` - PostgreSQL driver package for GORM.
+
+#### Frontend Dependencies
+- **No package manager**: No NPM or third-party libraries are yet used for the frontend—uses plain HTML, CSS, and JavaScript.
 
 ---
 

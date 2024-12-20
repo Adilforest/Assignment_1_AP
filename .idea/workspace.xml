@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0bf56199-4d44-488a-a581-530161417705" name="Changes" comment="Updated docs.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse-backend/database/postgres_connection.go" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/database/postgres_connection.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse-backend/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse-backend/models/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/models/product.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse-backend/routes/product_routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-backend/routes/product_routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warehouse-frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/warehouse-frontend/index.html" afterDir="false" />
-    </list>
+    <list default="true" id="0bf56199-4d44-488a-a581-530161417705" name="Changes" comment="Refactoring objects and docs." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,7 +62,8 @@
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "/Users/adilforest/GolandProjects/Assignment_1_AP/main.go"
+    "onboarding.tips.debug.path": "/Users/adilforest/GolandProjects/Assignment_1_AP/main.go",
+    "settings.editor.selected.configurable": "ml.llm.AIAssistantPromptsLibrary"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -116,7 +110,8 @@
     <MESSAGE value="Adding .gitignore file." />
     <MESSAGE value="Adding Post requests to server with html page" />
     <MESSAGE value="Updated docs." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated docs." />
+    <MESSAGE value="Refactoring objects and docs." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring objects and docs." />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
